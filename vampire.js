@@ -44,19 +44,13 @@ class Vampire {
   /** Tree traversal methods **/
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
-  vampireWithName(name) {
-    
-  }
+  vampireWithName(name) {}
 
   // Returns the total number of vampires that exist
-  get totalDescendents() {
-    
-  }
+  get totalDescendents() {}
 
   // Returns an array of all the vampires that were converted after 1980
-  get allMillennialVampires() {
-    
-  }
+  get allMillennialVampires() {}
 
   /** Stretch **/
   isDirectAcesstor(vampire) {
@@ -104,6 +98,44 @@ class Vampire {
     //   return this.vampire;
     // }
     // return vampire;
+  }
+
+  vampireWithName(name) {
+    let exists;
+    if (this.name === name) {
+      return this;
+    }
+    for (const findName of this.offspring) {
+      exists = findName.vampireWithName(name);
+      if (exists) {
+        return exists;
+      }
+    }
+
+    return null;
+  }
+
+  // Returns the total number of vampires that exist
+  get totalDescendents() {
+    let total = 0;
+    for (const num of this.offspring) {
+      total += num.totalDescendents + 1;
+    }
+    return total;
+  }
+
+  // Returns an array of all the vampires that were converted after 1980
+  get allMillennialVampires() {
+    let vampire = [];
+
+    if (this.yearConverted > 1980) {
+      vampire.push(this);
+    }
+    for (const vamp of this.offspring) {
+      const milenial = vamp.allMillennialVampires;
+      vampire = vampire.concat(milenial);
+    }
+    return vampire;
   }
 }
 
